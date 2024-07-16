@@ -15,7 +15,7 @@ export const SocketContextProvider = ({ children }) => {
   const user = useRecoilValue(userAtom);
 
   useEffect(() => {
-    const socket = io("http://localhost:7500", {
+    const socket = io("https://socialmedia-tf66.onrender.com", {
       query: {
         userId: user?._id,
       },
