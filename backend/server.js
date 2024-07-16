@@ -7,6 +7,7 @@ import postRoutes from "./routes/postRoutes.js"
 import messageRoutes from "./routes/messageRoutes.js"
 import { v2 as cloudinary } from "cloudinary"
 import { app, server } from "./socket/socket.js"
+import cors from "cors";
 
 dotenv.config();
 
@@ -20,6 +21,8 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
+app.use(cors());
+
 //Middlewares
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: false }));
@@ -30,5 +33,5 @@ app.use("/api/users", userRoutes)
 app.use("/api/posts", postRoutes);
 app.use("/api/messages", messageRoutes);
 
-// app.listen(PORT, () => console.log(`Server started at http://localhost:${PORT}                                           `.bgMagenta.white))
-server.listen(PORT, () => console.log(`Server started at http://localhost:${PORT}                                           `.bgMagenta.white))
+// app.listen(PORT, () => console.log(`Server started at http://localhost:${PORT}`.bgMagenta.white))
+server.listen(PORT, () => console.log(`Server started at http://localhost:${PORT}`.bgMagenta.white))
