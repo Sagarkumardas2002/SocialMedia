@@ -16,7 +16,9 @@ const useGetUserProfile = () => {
         return;
       }
       try {
-        const res = await fetch(`/api/users/profile/${username}`);
+        const res = await fetch(
+          `https://socialmedia-tf66.onrender.com/api/users/profile/${username}`
+        );
         const data = await res.json();
         if (data.error) {
           showToast("Error", data.error, "error");

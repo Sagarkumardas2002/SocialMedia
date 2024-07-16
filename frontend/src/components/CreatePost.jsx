@@ -58,17 +58,20 @@ const CreatePost = () => {
     // Implement the logic to create a post
     try {
       setLoading(true);
-      const res = await fetch("/api/posts/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          postedBy: user._id,
-          text: postText,
-          img: imgUrl,
-        }),
-      });
+      const res = await fetch(
+        "https://socialmedia-tf66.onrender.com/api/posts/create",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            postedBy: user._id,
+            text: postText,
+            img: imgUrl,
+          }),
+        }
+      );
 
       const data = await res.json();
       if (data.error) {

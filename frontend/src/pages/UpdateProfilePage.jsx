@@ -37,13 +37,16 @@ export default function UpdateProfilePage() {
     if (updating) return;
     seteUpdating(true);
     try {
-      const res = await fetch(`/api/users/update/${user._id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ...inputs, profilePic: imgUrl }),
-      });
+      const res = await fetch(
+        `https://socialmedia-tf66.onrender.com/api/users/update/${user._id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ...inputs, profilePic: imgUrl }),
+        }
+      );
 
       const data = await res.json(); //Updated User object
 
