@@ -14,26 +14,31 @@ export const SocketContextProvider = ({ children }) => {
   const [onlineUsers, setOnlineUsers] = useState([]);
   const user = useRecoilValue(userAtom);
 
-  useEffect(() => {
-    if (user?._id) {
-      const socket = io("https://socialmedia-tf66.onrender.com", {
-        query: {
-          userId: user._id,
-        },
-      });
-      setSocket(socket);
+ useEffect(() => {
+  if (user?._id) {
+    const socket = io("https://socialmedia-tf66.onrender.com", {
+      query: {
+        userId: user._id,
+      },
+    });
+    setSocket(socket);
 
-      socket.on("getOnlineUsers", (users) => {
-        setOnlineUsers(users);
-      });
+    socket.on("getOnlineUsers", (users) => {
+      try {
+        const parsedUsers = JSON.parse(users);
+        setOnlineUsers(parsedUsers);
+      } catch (error) {
+        console.error("Failed to parse users JSON:", error);
+        // Handle the error appropriately, maybe set an error state
+      }
+    });
 
-      return () => {
-        socket.disconnect();
-      };
-    }
-  }, [user?._id]);
+    return () => {
+      socket.disconnect();
+    };
+  }
+}, [user?._id]);
 
-  console.log(onlineUsers, "Online users");
 
   return (
     <SocketContext.Provider value={{ socket, onlineUsers }}>
