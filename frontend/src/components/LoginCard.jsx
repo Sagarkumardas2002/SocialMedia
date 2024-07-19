@@ -45,14 +45,16 @@ export default function LoginCard() {
         }
       );
       const data = await res.json();
-      if (data.error) {
-        showToast("Error", data.error, "error");
+       if (!res.ok) {
+        // Handle HTTP errors
+        showToast("Error", data.error || "An error occurred", "error");
+        return;
       }
       showToast("Success", "Successfully Loged In", "success");
       localStorage.setItem("user-threads", JSON.stringify(data));
       setUser(data);
     } catch (error) {
-      showToast("Error", error, "error");
+       showToast("Error", error.message || "An error occurred", "error");
     } finally {
       setLoading(false);
     }
