@@ -15,21 +15,26 @@ export const SocketContextProvider = ({ children }) => {
   const user = useRecoilValue(userAtom);
 
   useEffect(() => {
-    const socket = io("https://socialmedia-tf66.onrender.com", {
-      query: {
-        userId: user?._id,
-      },
-    });
-    setSocket(socket);
+    if (user?._id) {
+      const socket = io("https://socialmedia-tf66.onrender.com", {
+        query: {
+          userId: user._id,
+        },
+      });
+      setSocket(socket);
 
-    socket.on("getOnlineUsers", (users) => {
-      setOnlineUsers(users);
-    });
+      socket.on("getOnlineUsers", (users) => {
+        setOnlineUsers(users);
+      });
 
-    return () => socket && socket.close();
+      return () => {
+        socket.disconnect();
+      };
+    }
   }, [user?._id]);
 
   console.log(onlineUsers, "Online users");
+
   return (
     <SocketContext.Provider value={{ socket, onlineUsers }}>
       {children}
